@@ -2,14 +2,54 @@ import { GraphQLServer } from "graphql-yoga";
 
 // String, Boolean, Int, Float, ID
 
+// Demo user data
+const users = [
+    {
+        id: '1',
+        name: 'Emre',
+        email: 'y.emrekas@outlook.com',
+        age: 23
+    },
+    {
+        id: '2',
+        name: 'Aylin',
+        email: 'aylin@outlook.com',
+        age: 22
+    },
+    {
+        id: '3',
+        name: 'Ali',
+        email: 'ali@outlook.com',
+        age: 26
+    }];
+
+const posts = [{
+    id: '1',
+    title: 'a',
+    body: 'aaa',
+    published: true
+},
+{
+    id: '2',
+    title: 'b',
+    body: 'bbb',
+    published: true
+},
+{
+    id: '3',
+    title: 'c',
+    body: 'ccc',
+    published: false
+}
+]
+
 // Type definations (schema)
 const typeDefs = `
     type Query {
-        greeting(name: String): String!
+        users(query: String): [User!]!
         me: User!
         post: Post!
-        add(numbers: [Float!]!): Float!
-        grades: [Int]!
+        posts(query: String): [Post!]!
     }
 
     type User {
@@ -30,14 +70,23 @@ const typeDefs = `
 // Resolvers
 const resolvers = {
     Query: {
-        greeting(parent, args, ctx) {
-            if (args.name) {
-                return 'Hello, ' + args.name;
+        users(parent, args, ctx, info) {
+            if (!args.query) {
+                return users;
             }
-            return 'Hello!';
+            return users.filter((user) => {
+                return user.name.toLowerCase().includes(args.query.toLowerCase());
+            })
         },
-        grades(parent, args, ctx, info) {
-            return [99, 89, 92];
+        posts(parent, args, ctx, info) {
+            if (!args.query) {
+                return posts;
+            }
+            return posts.filter((post) => {
+                const isTitleMatched = posts.title.toLowerCase().includes(args.query.toLowerCase());
+                const isBodyMatched = posts.body.toLowerCase().includes(args.query.toLowerCase());
+                return isTitleMatched || isBodyMatched;
+            })
         },
         me() {
             return {
@@ -54,12 +103,6 @@ const resolvers = {
                 published: true
             }
         },
-        add(parent, args, ctx) {
-            if (args.numbers.length === 0) {
-                return 0;
-            }
-            return args.number.reduce((accumulator, currentValue) => accumulator + currentValue);
-        }
     }
 }
 

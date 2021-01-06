@@ -23,24 +23,28 @@ const users = [
         age: 26
     }];
 
-const posts = [{
-    id: '1',
-    title: 'a',
-    body: 'aaa',
-    published: true
-},
-{
-    id: '2',
-    title: 'b',
-    body: 'bbb',
-    published: true
-},
-{
-    id: '3',
-    title: 'c',
-    body: 'ccc',
-    published: false
-}
+const posts = [
+    {
+        id: '1',
+        title: 'a',
+        body: 'aaa',
+        published: true,
+        author: '1'
+    },
+    {
+        id: '2',
+        title: 'b',
+        body: 'bbb',
+        published: true,
+        author: '1'
+    },
+    {
+        id: '3',
+        title: 'c',
+        body: 'ccc',
+        published: false,
+        author: '2'
+    }
 ]
 
 // Type definations (schema)
@@ -57,6 +61,7 @@ const typeDefs = `
         name: String!
         email: String!
         age: Int
+        posts: [Post!]!
     }
 
     type Post{
@@ -64,6 +69,7 @@ const typeDefs = `
         title: String!
         body: String!
         published: Boolean!
+        author: User!
     }
 `;
 
@@ -103,6 +109,16 @@ const resolvers = {
                 published: true
             }
         },
+    },
+    Post: {
+        author(parent, args, ctx, info) {
+            return users.find((user) => parent.author === user.id);
+        }
+    },
+    User: {
+        posts(parent, args, ctx, info) {
+            return posts.filter(post => post.author === parent.id);
+        }
     }
 }
 

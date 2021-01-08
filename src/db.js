@@ -68,6 +68,24 @@ const comments = [
     }
 ]
 
-const db = { users, posts, comments };
+const likes = [
+    {
+        id: '1',
+        text: 'likes1',
+        author: '1',
+    },
+    {
+        id: '2',
+        text: 'likes2',
+        author: '1',
+    },
+    {
+        id: '3',
+        text: 'likes3',
+        author: '1',
+    },
+]
+
+const db = { users, posts, comments, likes };
 
 export { db as default };

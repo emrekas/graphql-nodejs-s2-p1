@@ -36,6 +36,9 @@ const Query = {
         if (!args.text)
             return db.comments;
         return db.comments.filter(comment => comment.text.toLowerCase().includes(args.query.toLowerCase()));
+    },
+    likes(parent, args, { db }, info) {
+        return db.likes;
     }
 };
 

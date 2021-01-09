@@ -4,7 +4,7 @@ type Query {
   post: Post!
   posts(query: String): [Post!]!
   comments: [Comment!]!
-  likes: [Like!]!
+  likes: [Like!]
 }
 
 type Mutation {
@@ -72,6 +72,7 @@ type Like {
     id: ID!
     text: String!
     author: User!
+    post: Post!
 }
 
 type Post {
@@ -80,6 +81,7 @@ type Post {
   body: String!
   published: Boolean!
   author: User!
+  likes: [Like!]
 }
 
 type Comment {

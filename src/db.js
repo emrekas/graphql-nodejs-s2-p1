@@ -73,16 +73,19 @@ const likes = [
         id: '1',
         text: 'likes1',
         author: '1',
+        post: '2'
     },
     {
         id: '2',
         text: 'likes2',
-        author: '1',
+        author: '2',
+        post: '1'
     },
     {
         id: '3',
         text: 'likes3',
-        author: '1',
+        author: '3',
+        post: '1'
     },
 ]
 
